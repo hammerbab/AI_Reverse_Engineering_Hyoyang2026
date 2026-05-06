@@ -1,4 +1,4 @@
-"mix(unsigned int)":
+"f(unsigned int)":
         push    rbp
         mov     rbp, rsp
         mov     DWORD PTR [rbp-4], edi
@@ -20,7 +20,7 @@
         mov     eax, DWORD PTR [rbp-4]
         pop     rbp
         ret
-"hash(char const*)":
+"g(char const*)":
         push    rbp
         mov     rbp, rsp
         sub     rsp, 24
@@ -36,7 +36,7 @@
         xor     DWORD PTR [rbp-4], eax
         mov     eax, DWORD PTR [rbp-4]
         mov     edi, eax
-        call    "mix(unsigned int)"
+        call    "f(unsigned int)"
         mov     DWORD PTR [rbp-4], eax
 .L4:
         mov     rax, QWORD PTR [rbp-24]
@@ -55,7 +55,7 @@
         mov     eax, DWORD PTR [rbp-4]
         leave
         ret
-"secure_compare(unsigned int, unsigned int)":
+"s(unsigned int, unsigned int)":
         push    rbp
         mov     rbp, rsp
         mov     DWORD PTR [rbp-20], edi
@@ -72,11 +72,11 @@
 .LC0:
         .string "Enter string: "
 .LC1:
-        .string "Hash: %08x\n"
+        .string "H: %08x\n"
 .LC2:
-        .string "Match!"
+        .string "M!"
 .LC3:
-        .string "Not match."
+        .string "Nm."
 "main":
         push    rbp
         mov     rbp, rsp
@@ -91,7 +91,7 @@
         call    "fgets"
         lea     rax, [rbp-272]
         mov     rdi, rax
-        call    "hash(char const*)"
+        call    "g(char const*)"
         mov     DWORD PTR [rbp-4], eax
         mov     eax, DWORD PTR [rbp-4]
         mov     esi, eax
@@ -103,7 +103,7 @@
         mov     eax, DWORD PTR [rbp-4]
         mov     esi, edx
         mov     edi, eax
-        call    "secure_compare(unsigned int, unsigned int)"
+        call    "s(unsigned int, unsigned int)"
         test    eax, eax
         setne   al
         test    al, al
